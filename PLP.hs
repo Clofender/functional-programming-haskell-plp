@@ -1,5 +1,5 @@
 -- Nome: Daniel Silva Ferraz Neto, Matrícula: 202410191
--- Nome: Luis Kennedy Gervasio Turola, Matrícula:
+-- Nome: Luis Kennedy Gervasio Turola, Matrícula: 202410840
 -- Grupo: Grupo 2 - Funções 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 e 38.
 
 module TrabalhoFuncional where
