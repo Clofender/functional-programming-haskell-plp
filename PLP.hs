@@ -45,3 +45,16 @@ variacoes (x1:x2:xs) = (x2 - x1) : variacoes (x2:xs)
 sequencia :: Integral t=> t -> t -> [t]
 sequencia 0 _ = []
 sequencia n m = m : sequencia (n-1) (m+1)
+
+-- FUNCAO 17
+--17 Uniao
+uniao :: Eq t => [t] -> [t] -> [t]
+uniao plist [] = plist --plist = primeira lista
+uniao plist (i:slist)  --slist = segunda lista
+	| contem plist i = uniao plist slist
+	| otherwise = uniao (plist ++ [i]) slist
+	where
+		contem [] _ = False
+		contem (a:as)b
+			| a == b = True
+			| otherwise = contem as b
