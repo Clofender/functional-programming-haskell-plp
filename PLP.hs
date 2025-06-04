@@ -66,3 +66,21 @@ insere_ordenado elemento [] = [elemento]
 insere_ordenado elemento (cabeca:resto)
 	| elemento <= cabeca	= elemento : cabeca : resto
 	| otherwise	= cabeca : insere_ordenado elemento resto
+
+
+--FUNCAO 26
+seleciona_ultimo :: [t] -> ([t], t)
+seleciona_ultimo [elemento] = ([], elemento)  -- Se tiver só um elemento
+seleciona_ultimo (cabeca:resto) = (cabeca:inicio, ultimo)
+	where (inicio, ultimo) = seleciona_ultimo resto
+
+rotaciona_ultimo :: [t] -> [t]
+rotaciona_ultimo [] = []
+rotaciona_ultimo lista = ultimo : inicio
+	  where (inicio, ultimo) = seleciona_ultimo lista
+
+
+rodar_direita :: Int -> [t] -> [t]
+rodar_direita 0 lista = lista                          -- 0 rotações, devolve lista original
+rodar_direita _ [] = []                          -- lista vazia
+rodar_direita n lista = rodar_direita (n-1) (rotaciona_ultimo lista)
