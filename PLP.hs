@@ -58,3 +58,11 @@ uniao plist (i:slist)  --slist = segunda lista
 		contem (a:as)b
 			| a == b = True
 			| otherwise = contem as b
+
+
+-- FUNCAO 20
+insere_ordenado :: Ord t => t -> [t] -> [t]
+insere_ordenado elemento [] = [elemento]
+insere_ordenado elemento (cabeca:resto)
+	| elemento <= cabeca	= elemento : cabeca : resto
+	| otherwise	= cabeca : insere_ordenado elemento resto
