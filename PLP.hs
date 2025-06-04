@@ -95,3 +95,16 @@ soma_conta (cabeca : resto) = (cabeca + somatorio, 1 + contador)
 media :: [Float] -> Float
 media lista = soma / fromIntegral contador
 	where (soma, contador) = soma_conta lista
+
+
+--FUNCAO 35
+primo :: Int -> Bool
+primo n
+  | n <= 1    = False
+  | otherwise = verifica_divisor (n - 1)
+  where
+    verifica_divisor :: Int -> Bool
+    verifica_divisor 1 = True
+    verifica_divisor divisor
+      | n `mod` divisor == 0 = False
+      | otherwise = verifica_divisor (divisor - 1)
