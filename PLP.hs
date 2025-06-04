@@ -36,3 +36,12 @@ variacoes :: Num a => [a] -> [a]
 variacoes [] = []       -- Nenhuma variação para lista vazia.
 variacoes [_] = []      -- Nenhuma variação para lista com um único elemento.
 variacoes (x1:x2:xs) = (x2 - x1) : variacoes (x2:xs)
+
+
+-- FUNCAO 14
+--Sequencia: recebe um valor n e um inicial m,
+--retorna uma lista ta que [m,m+1,...] n vezes
+--ex: sequencia 3 4 => [4,5,6] 
+sequencia :: Integral t=> t -> t -> [t]
+sequencia 0 _ = []
+sequencia n m = m : sequencia (n-1) (m+1)
