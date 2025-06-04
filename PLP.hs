@@ -96,6 +96,14 @@ media :: [Float] -> Float
 media lista = soma / fromIntegral contador
 	where (soma, contador) = soma_conta lista
 
+--FUNCAO 32
+seleciona :: [t] -> [Int] -> [t]
+seleciona _ [] = []
+seleciona lista (cabeca : resto) = elemento_posicao lista (cabeca - 1) : seleciona lista resto
+  where
+    elemento_posicao :: [t] -> Int -> t
+    elemento_posicao (cabeca : _) 0 = cabeca
+    elemento_posicao (_ : resto) n = elemento_posicao resto (n - 1)
 
 --FUNCAO 35
 primo :: Int -> Bool
