@@ -84,3 +84,14 @@ rodar_direita :: Int -> [t] -> [t]
 rodar_direita 0 lista = lista                          -- 0 rotações, devolve lista original
 rodar_direita _ [] = []                          -- lista vazia
 rodar_direita n lista = rodar_direita (n-1) (rotaciona_ultimo lista)
+
+
+--FUNCAO 29
+soma_conta :: [Float] -> (Float, Int)
+soma_conta [] = (0,0)
+soma_conta (cabeca : resto) = (cabeca + somatorio, 1 + contador)
+	where (somatorio, contador) = soma_conta resto
+
+media :: [Float] -> Float
+media lista = soma / fromIntegral contador
+	where (soma, contador) = soma_conta lista
