@@ -1,6 +1,6 @@
 -- Nome: Daniel Silva Ferraz Neto, Matrícula: 202410191
 -- Nome: Luis Kennedy Gervasio Turola, Matrícula: 202410840
--- Grupo: Grupo 2 - Funções 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 e 38.
+-- Grupo: Grupo 2 - Funções 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 e 38.
 
 module TrabalhoFuncional where
 
@@ -64,6 +64,25 @@ insere_ordenado elemento (cabeca:resto)
 	| elemento <= cabeca	= elemento : cabeca : resto
 	| otherwise	= cabeca : insere_ordenado elemento resto
 
+-- Função auxiliar para 'mediana' (Função 23), não faz parte da lista de entrega direta.
+-- ordena: ordena uma lista usando o princípio de insertion sort, utilizando a 'insere_ordenado' já definida.
+ordena :: Ord a => [a] -> [a]
+ordena [] = []
+ordena (x:xs) = insere_ordenado x (ordena xs)
+
+-- FUNCAO 23
+-- mediana: recebe uma lista de números e retorna a mediana deles.
+-- ex.: mediana [6,2,9,0,8,3,0,2] -> 2.5
+mediana :: (Ord a, Real a, Fractional b) => [a] -> b
+mediana [] = error "mediana: lista vazia nao tem mediana definida."
+mediana l =
+    let sorted_l = ordena l -- Usa a função 'ordena' definida acima
+        n = length sorted_l
+        mid = n `div` 2
+    in if odd n
+       then fromRational (toRational (sorted_l !! mid)) -- Elemento central para tamanho ímpar
+       else (fromRational (toRational (sorted_l !! (mid - 1))) + fromRational (toRational (sorted_l !! mid))) / 2.0 -- Média dos dois centrais para tamanho par
+
 
 --FUNCAO 26
 seleciona_ultimo :: [t] -> ([t], t)
@@ -113,3 +132,28 @@ primo n
     verifica_divisor divisor
       | n `mod` divisor == 0 = False
       | otherwise = verifica_divisor (divisor - 1)
+
+-- Função auxiliar para 'compactar' (Função 38).
+-- agrupa_elementos_consecutivos: Agrupa elementos iguais e consecutivos em sublistas.
+-- Ex: agrupa_elementos_consecutivos [1,1,1,2,2,3,1] -> [[1,1,1],[2,2],[3],[1]]
+agrupa_elementos_consecutivos :: Eq a => [a] -> [[a]]
+agrupa_elementos_consecutivos [] = []
+agrupa_elementos_consecutivos (x:xs) = (x : takeWhile (==x) xs) : agrupa_elementos_consecutivos (dropWhile (==x) xs)
+
+-- Função auxiliar para 'compactar' (Função 38).
+-- formata_grupo_compactado: Formata um grupo de elementos (uma sublista da saída de agrupa_elementos_consecutivos).
+formata_grupo_compactado :: (Eq a, Num a) => [a] -> [a]
+formata_grupo_compactado [] = error "formata_grupo_compactado: grupo vazio nao deveria ocorrer"
+formata_grupo_compactado grupo@(g:_) =
+    let count = length grupo
+    in if count > 1
+       then [fromIntegral count, g] -- fromIntegral para converter Int (de length) para Num a
+       else [g]
+
+-- FUNCAO 38
+-- compactar: recebe uma lista de inteiros e transforma repetições consecutivas.
+-- O resultado é uma lista de listas.
+-- ex.: compactar [2,2,2,3,4,4,2,9,5,2,4,5,5,5] -> [[3,2],[3],[2,4],[2],[9],[5],[2],[4],[3,5]]
+compactar :: (Eq a, Num a) => [a] -> [[a]]
+compactar [] = []
+compactar xs = map formata_grupo_compactado (agrupa_elementos_consecutivos xs)
