@@ -6,10 +6,10 @@ module TrabalhoFuncional where
 
 -- Funcao 2
 -- insere_no_fim: recebe um elemento e uma lista e insere o elemento no final da lista.
--- ex.: insere_no_fim 3 [1,2] -> [1,2,3]
-insere_no_fim :: a -> [a] -> [a]
-insere_no_fim el [] = [el]
-insere_no_fim el (x:xs) = x : insere_no_fim el xs
+-- ex: insere_no_fim 3 [1,2] -> [1,2,3]
+insere_no_fim :: t -> [t] -> [t]
+insere_no_fim elemento [] = [elemento]
+insere_no_fim elemento (cabeca:resto) = cabeca : insere_no_fim elemento resto
 
 -- Funcao 5
 -- concatena: recebe duas listas quaisquer e retorna uma terceira lista
