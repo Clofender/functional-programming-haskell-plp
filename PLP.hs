@@ -11,13 +11,13 @@ insere_no_fim :: t -> [t] -> [t]
 insere_no_fim elemento [] = [elemento]
 insere_no_fim elemento (cabeca:resto) = cabeca : insere_no_fim elemento resto
 
+
 -- Funcao 5
--- concatena: recebe duas listas quaisquer e retorna uma terceira lista
--- com os elementos da primeira no início e os elementos da segunda no fim.
--- ex.: concatena [1,2] [3,4] -> [1,2,3,4]
-concatena :: [a] -> [a] -> [a]
-concatena [] ys = ys
-concatena (x:xs) ys = x : concatena xs ys
+-- concatena: Une duas listas colocando os elementos da primeira no início e os da segunda no final.
+-- ex: concatena [1,2] [3,4] -> [1,2,3,4]
+concatena :: [t] -> [t] -> [t]
+concatena [] resto2 = resto2
+concatena (cabeca1:resto1) resto2 = cabeca1 : concatena resto1 resto2
 
 -- Funcao 8
 -- remover_repetidos: recebe uma lista e retorna outra lista sem repetição de elementos.
