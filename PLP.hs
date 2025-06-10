@@ -116,29 +116,22 @@ primo numero
     verifica_divisor d
       | numero `mod` d == 0 = False
       | otherwise      = verifica_divisor (d - 1)
-
-
--- Função auxiliar para 'compactar' (Função 38).
--- agrupa_elementos_consecutivos: Agrupa elementos iguais e consecutivos em sublistas.
--- Ex: agrupa_elementos_consecutivos [1,1,1,2,2,3,1] -> [[1,1,1],[2,2],[3],[1]]
-agrupa_elementos_consecutivos :: Eq a => [a] -> [[a]]
-agrupa_elementos_consecutivos [] = []
-agrupa_elementos_consecutivos (x:xs) = (x : takeWhile (==x) xs) : agrupa_elementos_consecutivos (dropWhile (==x) xs)
-
--- Função auxiliar para 'compactar' (Função 38).
--- formata_grupo_compactado: Formata um grupo de elementos (uma sublista da saída de agrupa_elementos_consecutivos).
-formata_grupo_compactado :: (Eq a, Num a) => [a] -> [a]
-formata_grupo_compactado [] = error "formata_grupo_compactado: grupo vazio nao deveria ocorrer"
-formata_grupo_compactado grupo@(g:_) =
-    let count = length grupo
-    in if count > 1
-       then [fromIntegral count, g] -- fromIntegral para converter Int (de length) para Num a
-       else [g]
-
--- FUNCAO 38
--- compactar: recebe uma lista de inteiros e transforma repetições consecutivas.
--- O resultado é uma lista de listas.
--- ex.: compactar [2,2,2,3,4,4,2,9,5,2,4,5,5,5] -> [[3,2],[3],[2,4],[2],[9],[5],[2],[4],[3,5]]
+      
+-- 38. compactar: Transforma sequências repetidas em [contagem, valor] e itens únicos em [valor].
 compactar :: (Eq a, Num a) => [a] -> [[a]]
 compactar [] = []
-compactar xs = map formata_grupo_compactado (agrupa_elementos_consecutivos xs)
+compactar (x:xs) = compactar_aux x 1 xs
+  where
+    compactar_aux :: (Eq a, Num a) => a -> Int -> [a] -> [[a]]
+    compactar_aux atual contagem [] = [formatar_grupo atual contagem] -- Fim da lista, formata o último grupo
+    compactar_aux atual contagem (proximo:resto_lista)
+      | atual == proximo = compactar_aux atual (contagem + 1) resto_lista -- Elemento repetido, incrementa contagem
+      | otherwise        = (formatar_grupo atual contagem) : compactar_aux proximo 1 resto_lista -- Novo elemento, formata grupo anterior e inicia novo
+    formatar_grupo :: Num a => a -> Int -> [a]
+    formatar_grupo el 1 = [el] -- Se contagem é 1, só o elemento
+    formatar_grupo el cnt = [converte_int_para_num cnt, el] -- Contagem > 1
+    converte_int_para_num :: Num a => Int -> a
+    converte_int_para_num n = int_para_num_rec n
+      where
+        int_para_num_rec 0 = 0
+        int_para_num_rec i = 1 + int_para_num_rec (i-1)
