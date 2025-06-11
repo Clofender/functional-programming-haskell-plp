@@ -33,7 +33,7 @@ remover_repetidos (cabeca:resto)
 variacoes :: Num t => [t] -> [t]
 variacoes [] = []
 variacoes [_] = []
-variacoes (elemento1:elemento2:resto) = (elemento2 - elemento1) : variacoes (elemento2:resto)
+variacoes (cabeca1:cabeca2:resto) = (cabeca2 - cabeca1) : variacoes (cabeca2:resto)
 
 
 -- 14. sequencia: gera sequência crescente de n elementos a partir de m
@@ -82,7 +82,7 @@ mediana lista
     meio = tamanho `div` 2
 
 
--- 26. rodar_direita: "rola" a lista para a direita n vezes
+-- 26. rodar_direita: rotaciona a lista para a direita n vezes
 rodar_direita :: Int -> [t] -> [t]
 rodar_direita 0 lista = lista
 rodar_direita _ [] = []
@@ -108,7 +108,7 @@ media lista = soma / fromIntegral cont
       where (soma, cont) = soma_conta resto
 
 
--- 32. seleciona: Retorna uma lista de elementos selecionados pelo índice (indexagem 1)
+-- 32. seleciona: Retorna uma lista de elementos selecionados pelo índice
 seleciona :: [t] -> [Int] -> [t]
 seleciona _ [] = []
 seleciona lista (cabeca:resto) = elemento_na_posicao lista (cabeca - 1) : seleciona lista resto
@@ -126,21 +126,17 @@ primo numero
       | otherwise      = verifica_divisor (d - 1)
      
       
--- 38. compactar: Transforma sequências repetidas em [contagem, valor] e itens únicos em [valor].
+-- 38. compactar: Transforma sequências repetidas em [contagem, valor] e itens únicos em [valor]. 
 compactar :: (Eq t, Num t) => [t] -> [[t]]
 compactar [] = []
-compactar (x:xs) = compactar_aux x 1 xs
+compactar (cabeca:resto) = compactar_aux cabeca 1 resto
   where
     compactar_aux :: (Eq a, Num a) => a -> Int -> [a] -> [[a]]
-    compactar_aux atual contagem [] = [formatar_grupo atual contagem] -- Fim da lista, formata o último grupo
+    compactar_aux atual contagem [] = [formatar atual contagem]
     compactar_aux atual contagem (proximo:resto_lista)
-      | atual == proximo = compactar_aux atual (contagem + 1) resto_lista -- Elemento repetido, incrementa contagem
-      | otherwise        = (formatar_grupo atual contagem) : compactar_aux proximo 1 resto_lista -- Novo elemento, formata grupo anterior e inicia novo
-    formatar_grupo :: Num a => a -> Int -> [a]
-    formatar_grupo el 1 = [el] -- Se contagem é 1, só o elemento
-    formatar_grupo el cnt = [converte_int_para_num cnt, el] -- Contagem > 1
-    converte_int_para_num :: Num a => Int -> a
-    converte_int_para_num n = int_para_num_rec n
-      where
-        int_para_num_rec 0 = 0
-        int_para_num_rec i = 1 + int_para_num_rec (i-1)
+      | atual == proximo = compactar_aux atual (contagem + 1) resto_lista 
+      | otherwise        = (formatar atual contagem) : compactar_aux proximo 1 resto_lista 
+    formatar :: Num a => a -> Int -> [a]
+    formatar el 1 = [el] 
+    formatar el cnt = [ fromIntegral cnt, el] -- Contagem > 1
+    
