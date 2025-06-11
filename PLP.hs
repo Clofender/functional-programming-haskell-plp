@@ -8,6 +8,7 @@ insere_no_fim :: t -> [t] -> [t]
 insere_no_fim elemento [] = [elemento]
 insere_no_fim elemento (cabeca:resto) = cabeca : insere_no_fim elemento resto
 
+
 -- 5. concatena: concatena duas listas
 concatena :: [t] -> [t] -> [t]
 concatena [] lista2 = lista2
@@ -34,14 +35,17 @@ variacoes [] = []
 variacoes [_] = []
 variacoes (elemento1:elemento2:resto) = (elemento2 - elemento1) : variacoes (elemento2:resto)
 
+
 -- 14. sequencia: gera sequência crescente de n elementos a partir de m
 sequencia :: Integral t => t -> t -> [t]
 sequencia 0 _ = []
 sequencia n m = m : sequencia (n-1) (m+1)
 
+
 -- 17. uniao: união de duas listas sem repetição
 uniao :: Eq t => [t] -> [t] -> [t]
 uniao lista1 lista2 = remover_repetidos (concatena lista1 lista2)
+
 
 -- 20. insere_ordenado: insere elemento em lista ordenada
 insere_ordenado :: Ord t => t -> [t] -> [t]
@@ -50,32 +54,33 @@ insere_ordenado elemento (cabeca:resto)
   | elemento <= cabeca = elemento : cabeca : resto
   | otherwise = cabeca : insere_ordenado elemento resto
 
+
 -- Ordena
 ordena :: Ord t => [t] -> [t]
 ordena [] = []
 ordena (cabeca:resto) = insere_ordenado cabeca (ordena resto)
 
 -- 23. mediana: retorna a mediana da lista de números
--- Número de elementos de uma lista
+-- Tamanho da lista/ numero de elementos
 tamanho_lista :: [t] -> Int
 tamanho_lista [] = 0
 tamanho_lista (_:resto) = 1 + tamanho_lista resto
 
--- Acessa o elemento da lista na posição i (indexação 0-based)
+-- Retorna o elemento em uma posição específica (indexagem 0)
 elemento_na_posicao :: [t] -> Int -> t
 elemento_na_posicao (cabeca:_) 0 = cabeca
 elemento_na_posicao (_:resto) i = elemento_na_posicao resto (i - 1)
 
 -- Mediana
-mediana :: (Ord t, Real t, Fractional b) => [t] -> b
+mediana :: (Ord t, Fractional t) => [t] -> t
 mediana lista
-  | tamanho `mod` 2 == 1 = realToFrac (elemento_na_posicao lista_ordenada meio)
-  | otherwise = (realToFrac (elemento_na_posicao lista_ordenada (meio - 1)) +
-                 realToFrac (elemento_na_posicao lista_ordenada meio)) / 2.0
+  | odd tamanho     = elemento_na_posicao listOrdenada meio
+  | otherwise = (elemento_na_posicao listOrdenada (meio - 1) + elemento_na_posicao listOrdenada meio) / 2
   where
-    lista_ordenada = ordena lista
-    tamanho = tamanho_lista lista_ordenada
+    listOrdenada = ordena lista
+    tamanho = tamanho_lista listOrdenada
     meio = tamanho `div` 2
+
 
 -- 26. rodar_direita: "rola" a lista para a direita n vezes
 rodar_direita :: Int -> [t] -> [t]
@@ -91,7 +96,8 @@ rodar_direita n lista = rodar_direita (n-1) (rotaciona_ultimo lista)
     seleciona_ultimo (cabeca:resto) = (cabeca:inicio, ultimo)
       where (inicio, ultimo) = seleciona_ultimo resto
 
--- 29. media: retorna média aritmética de uma lista de Float
+
+-- 29. media: média aritmética de uma lista numérica
 media :: [Float] -> Float
 media lista = soma / fromIntegral cont
   where
@@ -101,10 +107,12 @@ media lista = soma / fromIntegral cont
     soma_conta (cabeca:resto) = (cabeca + soma, 1 + cont)
       where (soma, cont) = soma_conta resto
 
--- 32. seleciona: recebe lista e lista de posições
+
+-- 32. seleciona: Retorna uma lista de elementos selecionados pelo índice (indexagem 1)
 seleciona :: [t] -> [Int] -> [t]
 seleciona _ [] = []
 seleciona lista (cabeca:resto) = elemento_na_posicao lista (cabeca - 1) : seleciona lista resto
+   
    
 -- 35. primo: verifica se um número é primo
 primo :: Int -> Bool
@@ -116,9 +124,10 @@ primo numero
     verifica_divisor d
       | numero `mod` d == 0 = False
       | otherwise      = verifica_divisor (d - 1)
+     
       
 -- 38. compactar: Transforma sequências repetidas em [contagem, valor] e itens únicos em [valor].
-compactar :: (Eq a, Num a) => [a] -> [[a]]
+compactar :: (Eq t, Num t) => [t] -> [[t]]
 compactar [] = []
 compactar (x:xs) = compactar_aux x 1 xs
   where
