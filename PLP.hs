@@ -2,6 +2,7 @@
 -- Nome: Luis Kennedy Gervasio Turola, Matrícula: 202410840
 -- Grupo: Grupo 2 - Funções 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 e 38.
 
+
 module TrabalhoFuncional where
 -- 2. insere_no_fim: insere um elemento no final da lista
 insere_no_fim :: t -> [t] -> [t]
@@ -55,23 +56,25 @@ insere_ordenado elemento (cabeca:resto)
   | otherwise = cabeca : insere_ordenado elemento resto
 
 
--- Ordena
+-- Ordena: Ordena uma lista usando)
 ordena :: Ord t => [t] -> [t]
 ordena [] = []
 ordena (cabeca:resto) = insere_ordenado cabeca (ordena resto)
 
--- 23. mediana: retorna a mediana da lista de números
+
 -- Tamanho da lista/ numero de elementos
 tamanho_lista :: [t] -> Int
 tamanho_lista [] = 0
 tamanho_lista (_:resto) = 1 + tamanho_lista resto
 
--- Retorna o elemento em uma posição específica (indexagem 0)
+
+-- Retorna o elemento de uma lista uma posição específica
 elemento_na_posicao :: [t] -> Int -> t
 elemento_na_posicao (cabeca:_) 0 = cabeca
 elemento_na_posicao (_:resto) i = elemento_na_posicao resto (i - 1)
 
--- Mediana
+
+-- 23. mediana: retorna a mediana da lista de números
 mediana :: (Ord t, Fractional t) => [t] -> t
 mediana lista
   | odd tamanho     = elemento_na_posicao listOrdenada meio
