@@ -15,7 +15,7 @@ concatena [] lista2 = lista2
 concatena (cabeca1:resto1) lista2 = cabeca1 : concatena resto1 lista2
 
 
---- 8. remover_repetidos: remove elementos repetidos de uma lista
+-- 8. remover_repetidos: remove elementos repetidos de uma lista
 --Mantém a última ocorrência do elemento na lista
 remover_repetidos :: Eq t => [t] -> [t]
 remover_repetidos [] = []
