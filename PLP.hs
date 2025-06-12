@@ -2,7 +2,6 @@
 -- Nome: Luis Kennedy Gervasio Turola, Matrícula: 202410840
 -- Grupo: Grupo 2 - Funções 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 e 38.
 
-
 module TrabalhoFuncional where
 -- 2. insere_no_fim: insere um elemento no final da lista
 insere_no_fim :: t -> [t] -> [t]
@@ -17,6 +16,7 @@ concatena (cabeca1:resto1) lista2 = cabeca1 : concatena resto1 lista2
 
 
 --- 8. remover_repetidos: remove elementos repetidos de uma lista
+--Mantém a última ocorrência do elemento na lista
 remover_repetidos :: Eq t => [t] -> [t]
 remover_repetidos [] = []
 remover_repetidos (cabeca:resto)
@@ -30,7 +30,7 @@ remover_repetidos (cabeca:resto)
       | otherwise  = esta_na_lista alvo resto
 
 
--- 11. variacoes: lista das diferenças entre elementos consecutivos
+-- 11. variacoes: lista das diferenças entre elementos consecutivos (i=(i+1)-i)
 variacoes :: Num t => [t] -> [t]
 variacoes [] = []
 variacoes [_] = []
@@ -44,19 +44,20 @@ sequencia n m = m : sequencia (n-1) (m+1)
 
 
 -- 17. uniao: união de duas listas sem repetição
+--Concatena duas listas e depois remove os elementos repetidos
 uniao :: Eq t => [t] -> [t] -> [t]
-uniao lista1 lista2 = remover_repetidos (concatena lista1 lista2)
+uniao lista1 lista2 = remover_repetidos (concatena lista1 lista2) 
 
 
--- 20. insere_ordenado: insere elemento em lista ordenada
+-- 20. insere_ordenado: insere elemento em uma lista ordenada
 insere_ordenado :: Ord t => t -> [t] -> [t]
 insere_ordenado elemento [] = [elemento]
 insere_ordenado elemento (cabeca:resto)
-  | elemento <= cabeca = elemento : cabeca : resto
+  | elemento <= cabeca = elemento : cabeca : resto --Se o elemento for menor que a cabeça, vira a nova cabeça
   | otherwise = cabeca : insere_ordenado elemento resto
 
 
--- Ordena: Ordena uma lista usando)
+-- Ordena: Ordena uma lista usando insere_ordenado
 ordena :: Ord t => [t] -> [t]
 ordena [] = []
 ordena (cabeca:resto) = insere_ordenado cabeca (ordena resto)
@@ -74,7 +75,7 @@ elemento_na_posicao (cabeca:_) 0 = cabeca
 elemento_na_posicao (_:resto) i = elemento_na_posicao resto (i - 1)
 
 
--- 23. mediana: retorna a mediana da lista de números
+-- 23. mediana: retorna a mediana da lista numérica
 mediana :: (Ord t, Fractional t) => [t] -> t
 mediana lista
   | odd tamanho     = elemento_na_posicao listOrdenada meio
@@ -91,10 +92,11 @@ rodar_direita 0 lista = lista
 rodar_direita _ [] = []
 rodar_direita n lista = rodar_direita (n-1) (rotaciona_ultimo lista)
   where
+    --Faz o último elemento do resto virar a cabeça
     rotaciona_ultimo [] = []
     rotaciona_ultimo lista = ultimo : inicio
       where (inicio, ultimo) = seleciona_ultimo lista
-
+    
     seleciona_ultimo [cabeca] = ([], cabeca)
     seleciona_ultimo (cabeca:resto) = (cabeca:inicio, ultimo)
       where (inicio, ultimo) = seleciona_ultimo resto
@@ -117,7 +119,7 @@ seleciona _ [] = []
 seleciona lista (cabeca:resto) = elemento_na_posicao lista (cabeca - 1) : seleciona lista resto
    
    
--- 35. primo: verifica se um número é primo
+-- 35. primo: verifica se um número é primo ou não
 primo :: Int -> Bool
 primo numero
   | numero <= 1 = False
