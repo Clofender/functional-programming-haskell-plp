@@ -139,6 +139,6 @@ compactar (cabeca:resto) = compactar_aux cabeca 1 resto
     compactar_aux atual contagem (proximo:resto_lista)
       | atual == proximo = compactar_aux atual (contagem + 1) resto_lista 
       | otherwise        = (formatar atual contagem) : compactar_aux proximo 1 resto_lista 
-    formatar el 1 = [el] -- Contagem 1
-    formatar el cnt = [ fromIntegral cnt, el] -- Contagem > 1
+    formatar el 1 = [el] -- Contagem 1 Retorna [valor]
+    formatar el cnt = [ fromIntegral cnt, el] -- Contagem > 1 Retorna [contagem,valor]
     
