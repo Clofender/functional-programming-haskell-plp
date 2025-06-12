@@ -23,7 +23,6 @@ remover_repetidos (cabeca:resto)
   | esta_na_lista cabeca resto = remover_repetidos resto
   | otherwise = cabeca : remover_repetidos resto
   where
-    esta_na_lista :: Eq t => t -> [t] -> Bool
     esta_na_lista _ [] = False
     esta_na_lista alvo (cabeca:resto)
       | alvo == cabeca  = True
@@ -136,12 +135,10 @@ compactar :: (Eq t, Num t) => [t] -> [[t]]
 compactar [] = []
 compactar (cabeca:resto) = compactar_aux cabeca 1 resto
   where
-    compactar_aux :: (Eq a, Num a) => a -> Int -> [a] -> [[a]]
     compactar_aux atual contagem [] = [formatar atual contagem]
     compactar_aux atual contagem (proximo:resto_lista)
       | atual == proximo = compactar_aux atual (contagem + 1) resto_lista 
       | otherwise        = (formatar atual contagem) : compactar_aux proximo 1 resto_lista 
-    formatar :: Num a => a -> Int -> [a]
-    formatar el 1 = [el] 
+    formatar el 1 = [el] -- Contagem 1
     formatar el cnt = [ fromIntegral cnt, el] -- Contagem > 1
     
