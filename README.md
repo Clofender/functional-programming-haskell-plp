@@ -1,6 +1,5 @@
 **Funcções a sere revisadas:**
-38
-Não entendi como funciona
+Nenhuma.
 
 **Funções que não estão funcionando:**
 Nenhuma.
